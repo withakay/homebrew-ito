@@ -5,29 +5,29 @@ class Ito < Formula
   desc "Spec-driven workflow management for AI-assisted development"
   homepage "https://github.com/withakay/ito"
   license "MIT"
-  version "0.1.0"
+  version "0.1.1"
 
-  on_intel do
-    on_macos do
-      url "https://github.com/withakay/ito/releases/download/v0.1.0/ito-v0.1.0-x86_64-apple-darwin.tar.gz"
-      sha256 "31166f53388d9086e82110bfaa7fefb3608e17c56cd01c36b98fc7d66ea46b4e"
+  on_macos do
+    on_intel do
+      url "https://github.com/withakay/ito/releases/download/v0.1.1/ito-cli-x86_64-apple-darwin.tar.xz"
+      sha256 "b44b4938641aa110394511a5ea7fc19f21ed9562fabc1ad786fcbbe7e0fc5ac2"
     end
 
-    on_linux do
-      url "https://github.com/withakay/ito/releases/download/v0.1.0/ito-v0.1.0-x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "6d448539ffe58ea321fcdf0a8d1796cce55c5f78b0f4eca316c68c56985ddfdf"
+    on_arm do
+      url "https://github.com/withakay/ito/releases/download/v0.1.1/ito-cli-aarch64-apple-darwin.tar.xz"
+      sha256 "39417bcda4ebe4be9a604ce7beab34436bb0103bad30ff4bc3d3201401dcfbcf"
     end
   end
 
-  on_arm do
-    on_macos do
-      url "https://github.com/withakay/ito/releases/download/v0.1.0/ito-v0.1.0-aarch64-apple-darwin.tar.gz"
-      sha256 "0058a6145aa042a6222edbdf33634719268ad78e479e59f12a18f230b138fe4d"
+  on_linux do
+    on_intel do
+      url "https://github.com/withakay/ito/releases/download/v0.1.1/ito-cli-x86_64-unknown-linux-gnu.tar.xz"
+      sha256 "2c0775d2953e8f60e3406cbf4793f1b90054f3121793d1654104b6384bf1185f"
     end
 
-    on_linux do
-      url "https://github.com/withakay/ito/releases/download/v0.1.0/ito-v0.1.0-aarch64-unknown-linux-gnu.tar.gz"
-      sha256 "222b0690acc4484001d79f68ea271f2ada6c691cc1cc06441b21501d40e08f90"
+    on_arm do
+      url "https://github.com/withakay/ito/releases/download/v0.1.1/ito-cli-aarch64-unknown-linux-gnu.tar.xz"
+      sha256 "5af524b3ba42f0d12b6df64a31ba28d4e6c9ffea6faf5141890ac8bebe39d562"
     end
   end
 
@@ -44,9 +44,7 @@ class Ito < Formula
 
   def install
     if build.head?
-      cd "ito-rs" do
-        system "cargo", "install", *std_cargo_args(path: "crates/ito-cli")
-      end
+      system "cargo", "install", *std_cargo_args(path: "ito-rs/crates/ito-cli")
     else
       bin.install "ito"
     end
