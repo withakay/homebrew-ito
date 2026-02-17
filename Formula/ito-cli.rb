@@ -1,25 +1,25 @@
 class ItoCli < Formula
   desc "Command-line interface for Ito"
   homepage "https://github.com/withakay/ito"
-  version "0.1.4"
+  version "0.1.5"
   if OS.mac?
     if Hardware::CPU.arm?
-      url "https://github.com/withakay/ito/releases/download/v0.1.4/ito-cli-aarch64-apple-darwin.tar.xz"
-      sha256 "4f7c14ade21b6c46e8cc43edaac24a70e706614179dbd9f8c5103a4d696e1def"
+      url "https://github.com/withakay/ito/releases/download/v0.1.5/ito-cli-aarch64-apple-darwin.tar.xz"
+      sha256 "5d1a7d24aed6b9730662525d6fbee20aefa7c37708573b7226ff27b247c98e46"
     end
     if Hardware::CPU.intel?
-      url "https://github.com/withakay/ito/releases/download/v0.1.4/ito-cli-x86_64-apple-darwin.tar.xz"
-      sha256 "a5d3c7e6eae0b993af4d6199b1a8ed0760cc9447c86ee1bec9ecb7e127dc0299"
+      url "https://github.com/withakay/ito/releases/download/v0.1.5/ito-cli-x86_64-apple-darwin.tar.xz"
+      sha256 "f7aca10f50e492d7ed7f283972110139a3a6a73d7c611f49b59ba6c3a8f918df"
     end
   end
   if OS.linux?
     if Hardware::CPU.arm?
-      url "https://github.com/withakay/ito/releases/download/v0.1.4/ito-cli-aarch64-unknown-linux-gnu.tar.xz"
-      sha256 "186db3a6cdbf600a1d22182e1653f6f818811e42dd4c32c0a2da0fd09cf57730"
+      url "https://github.com/withakay/ito/releases/download/v0.1.5/ito-cli-aarch64-unknown-linux-gnu.tar.xz"
+      sha256 "c950412294f8e80262104ee1e509dd045f6615affa45f5b3e4fc1fbea56d51f2"
     end
     if Hardware::CPU.intel?
-      url "https://github.com/withakay/ito/releases/download/v0.1.4/ito-cli-x86_64-unknown-linux-gnu.tar.xz"
-      sha256 "4cd33561b052d0963254f9be30b767560138cf5e0e717164d672a7f83f7a2805"
+      url "https://github.com/withakay/ito/releases/download/v0.1.5/ito-cli-x86_64-unknown-linux-gnu.tar.xz"
+      sha256 "5001b57b24cf623c8c56809c27d6089d38467a4e9f9ca76404791397095840c1"
     end
   end
   license "MIT"
