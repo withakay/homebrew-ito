@@ -50,6 +50,13 @@ class Ito < Formula
     end
   end
 
+  service do
+    run [opt_bin/"ito", "serve-api", "--bind", "127.0.0.1", "--port", "9010"]
+    keep_alive true
+    log_path var/"log/ito-backend.log"
+    error_log_path var/"log/ito-backend.log"
+  end
+
   test do
     output = shell_output("#{bin}/ito --version").strip
     if build.head?
