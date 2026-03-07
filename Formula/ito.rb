@@ -55,7 +55,6 @@ class Ito < Formula
     keep_alive true
     log_path var/"log/ito-backend.log"
     error_log_path var/"log/ito-backend.log"
-    environment_variables ITO_BACKEND_ADMIN_TOKEN: "", ITO_BACKEND_TOKEN_SEED: ""
   end
 
   test do
