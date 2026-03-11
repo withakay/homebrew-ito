@@ -1,68 +1,73 @@
-# typed: false
-# frozen_string_literal: true
-
 class Ito < Formula
-  desc "Spec-driven workflow management for AI-assisted development"
+  desc "Command-line interface for Ito"
   homepage "https://github.com/withakay/ito"
+  version "0.1.20"
+  if OS.mac?
+    if Hardware::CPU.arm?
+      url "https://github.com/withakay/ito/releases/download/v0.1.20/ito-cli-aarch64-apple-darwin.tar.xz"
+      sha256 "5dd33cc0f7702fcf678d332edf74b52de966762e267726996b74084b5fda4509"
+    end
+    if Hardware::CPU.intel?
+      url "https://github.com/withakay/ito/releases/download/v0.1.20/ito-cli-x86_64-apple-darwin.tar.xz"
+      sha256 "b919dc14af87a5bcfb121814163c6db9ae8c12f3fe3a875291139fdd92443404"
+    end
+  end
+  if OS.linux?
+    if Hardware::CPU.arm?
+      url "https://github.com/withakay/ito/releases/download/v0.1.20/ito-cli-aarch64-unknown-linux-gnu.tar.xz"
+      sha256 "e8c6bb3dd8f98fe5da7c3db1e7115046f77fc3c49e9bc28a6d16972b82561dba"
+    end
+    if Hardware::CPU.intel?
+      url "https://github.com/withakay/ito/releases/download/v0.1.20/ito-cli-x86_64-unknown-linux-gnu.tar.xz"
+      sha256 "3a7c1b296f63405122c5035809eac7a5560e3afd844661ea007764915eb25d00"
+    end
+  end
   license "MIT"
-  version "0.1.1"
 
-  on_macos do
-    on_intel do
-      url "https://github.com/withakay/ito/releases/download/v0.1.1/ito-cli-x86_64-apple-darwin.tar.xz"
-      sha256 "b44b4938641aa110394511a5ea7fc19f21ed9562fabc1ad786fcbbe7e0fc5ac2"
-    end
+  BINARY_ALIASES = {
+    "aarch64-apple-darwin":      {},
+    "aarch64-unknown-linux-gnu": {},
+    "x86_64-apple-darwin":       {},
+    "x86_64-pc-windows-gnu":     {},
+    "x86_64-unknown-linux-gnu":  {},
+  }.freeze
 
-    on_arm do
-      url "https://github.com/withakay/ito/releases/download/v0.1.1/ito-cli-aarch64-apple-darwin.tar.xz"
-      sha256 "39417bcda4ebe4be9a604ce7beab34436bb0103bad30ff4bc3d3201401dcfbcf"
-    end
+  def target_triple
+    cpu = Hardware::CPU.arm? ? "aarch64" : "x86_64"
+    os = OS.mac? ? "apple-darwin" : "unknown-linux-gnu"
+
+    "#{cpu}-#{os}"
   end
 
-  on_linux do
-    on_intel do
-      url "https://github.com/withakay/ito/releases/download/v0.1.1/ito-cli-x86_64-unknown-linux-gnu.tar.xz"
-      sha256 "2c0775d2953e8f60e3406cbf4793f1b90054f3121793d1654104b6384bf1185f"
+  def install_binary_aliases!
+    BINARY_ALIASES[target_triple.to_sym].each do |source, dests|
+      dests.each do |dest|
+        bin.install_symlink bin/source.to_s => dest
+      end
     end
-
-    on_arm do
-      url "https://github.com/withakay/ito/releases/download/v0.1.1/ito-cli-aarch64-unknown-linux-gnu.tar.xz"
-      sha256 "5af524b3ba42f0d12b6df64a31ba28d4e6c9ffea6faf5141890ac8bebe39d562"
-    end
-  end
-
-  head "https://github.com/withakay/ito.git", branch: "main"
-
-  livecheck do
-    url :stable
-    strategy :github_latest
-  end
-
-  head do
-    depends_on "rust" => :build
   end
 
   def install
-    if build.head?
-      system "cargo", "install", *std_cargo_args(path: "ito-rs/crates/ito-cli")
-    else
-      bin.install "ito"
-    end
+    bin.install "ito" if OS.mac? && Hardware::CPU.arm?
+    bin.install "ito" if OS.mac? && Hardware::CPU.intel?
+    bin.install "ito" if OS.linux? && Hardware::CPU.arm?
+    bin.install "ito" if OS.linux? && Hardware::CPU.intel?
+
+    install_binary_aliases!
+
+    # Homebrew will automatically install these, so we don't need to do that
+    doc_files = Dir["README.*", "readme.*", "LICENSE", "LICENSE.*", "CHANGELOG.*"]
+    leftover_contents = Dir["*"] - doc_files
+
+    # Install any leftover files in pkgshare; these are probably config or
+    # sample files.
+    pkgshare.install(*leftover_contents) unless leftover_contents.empty?
   end
 
   service do
-    run [opt_bin/"ito", "serve-api", "--bind", "127.0.0.1", "--port", "9010"]
+    run [opt_bin/"ito", "serve-api", "--service"]
     keep_alive true
     log_path var/"log/ito-backend.log"
     error_log_path var/"log/ito-backend.log"
-  end
-
-  test do
-    output = shell_output("#{bin}/ito --version").strip
-    if build.head?
-      assert_match(/^\d+\.\d+\.\d+/, output)
-    else
-      assert_match(/^#{Regexp.escape(version.to_s)}$/, output)
-    end
   end
 end
