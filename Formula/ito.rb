@@ -1,25 +1,25 @@
 class Ito < Formula
   desc "Command-line interface for Ito"
   homepage "https://github.com/withakay/ito"
-  version "0.1.32"
+  version "0.1.33"
   if OS.mac?
     if Hardware::CPU.arm?
-      url "https://github.com/withakay/ito/releases/download/v0.1.32/ito-cli-aarch64-apple-darwin.tar.xz"
-      sha256 "15a4ba0bedb9c95ddb881a7934aacebffa96a42d1ca93345b6a2a3f5405d7bd5"
+      url "https://github.com/withakay/ito/releases/download/v0.1.33/ito-cli-aarch64-apple-darwin.tar.xz"
+      sha256 "ef3ffe196107963ca1eef46896d0a01702ecaa208c4a47fd409cfb7efbf4bb75"
     end
     if Hardware::CPU.intel?
-      url "https://github.com/withakay/ito/releases/download/v0.1.32/ito-cli-x86_64-apple-darwin.tar.xz"
-      sha256 "8aca60a503883809555902d6651cb6fc3bd1ac6da8713240dcce0424d0f030c3"
+      url "https://github.com/withakay/ito/releases/download/v0.1.33/ito-cli-x86_64-apple-darwin.tar.xz"
+      sha256 "bf545869193e6d24d1a9afca1dd878460158bba7f6d5ed17a3aeea652c835087"
     end
   end
   if OS.linux?
     if Hardware::CPU.arm?
-      url "https://github.com/withakay/ito/releases/download/v0.1.32/ito-cli-aarch64-unknown-linux-gnu.tar.xz"
-      sha256 "ad4a73430d63731b5eec7095d1af4327cb37193d5562ea6df56e8a467312ddf8"
+      url "https://github.com/withakay/ito/releases/download/v0.1.33/ito-cli-aarch64-unknown-linux-gnu.tar.xz"
+      sha256 "780b9ddb261eba48f06ecfa5e0b5d0527a64925f5bba4afec191285a3a801e8a"
     end
     if Hardware::CPU.intel?
-      url "https://github.com/withakay/ito/releases/download/v0.1.32/ito-cli-x86_64-unknown-linux-gnu.tar.xz"
-      sha256 "2beb34e6b0ef3573cfc7ed701c00b69759038c36b786918bb00bd6d46b509bc7"
+      url "https://github.com/withakay/ito/releases/download/v0.1.33/ito-cli-x86_64-unknown-linux-gnu.tar.xz"
+      sha256 "c11edc2aeb813c5b83e709167a07bfebc253176d9b55a51b3659aa12eb91b45a"
     end
   end
   license "MIT"
@@ -62,12 +62,5 @@ class Ito < Formula
     # Install any leftover files in pkgshare; these are probably config or
     # sample files.
     pkgshare.install(*leftover_contents) unless leftover_contents.empty?
-  end
-
-  service do
-    run [opt_bin/"ito", "backend", "serve", "--service"]
-    keep_alive true
-    log_path var/"log/ito-backend.log"
-    error_log_path var/"log/ito-backend.log"
   end
 end
